@@ -90,10 +90,19 @@ func initConfig() {
 			fmt.Println("config file not found.", err)
 		} else {
 			fmt.Println(err)
-			os.Exit(1)
+			// os.Exit(1)
 		}
 		return
 	}
 	fmt.Println("Using config file:", viper.ConfigFileUsed())
 
+	// viper.ReadInConfig or below read
+	s := struct {
+		Greeting string
+	}{}
+	err := viper.Unmarshal(&s)
+	if err != nil {
+		fmt.Printf("unable to decode into struct, %v", err)
+	}
+	fmt.Printf("config is %+v\n", s)
 }

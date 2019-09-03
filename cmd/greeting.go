@@ -44,12 +44,17 @@ to quickly create a Cobra application.`,
 		}
 
 		msg := "Hello!!"
-
 		if viper.GetString("greeting") != "" {
 			msg = viper.GetString("greeting")
 		}
-
 		fmt.Printf("%s\n", msg)
+
+		viper.Set("test", "test test")
+		err = viper.WriteConfig()
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("save file path is %s\n", viper.ConfigFileUsed())
 	},
 }
 
@@ -66,4 +71,5 @@ func init() {
 	greetingCmd.Flags().String("msg", "", "greeting msg")
 	viper.BindPFlag("greeting", greetingCmd.Flags().Lookup("msg"))
 	viper.BindEnv("greeting", "TW_GREETING")
+
 }

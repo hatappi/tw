@@ -41,7 +41,7 @@ func init() {
 	rootCmd.AddCommand(echoCmd)
 
 	echoCmd.PersistentFlags().String("message", "", "Port to run Application server on")
-	viper.BindPFlag("message", echoCmd.Flags().Lookup("message"))
+	viper.BindPFlag("message", echoCmd.PersistentFlags().Lookup("message"))
 	viper.BindEnv("message", "KOPS_LIFECYCLE_OVERRIDES")
 
 	// Here you will define your flags and configuration settings.
