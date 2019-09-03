@@ -17,6 +17,7 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -33,6 +34,15 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		parentMessage, err := cmd.Parent().PersistentFlags().GetString("message")
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		if parentMessage != "" {
+			fmt.Printf("ParentCommand message is %s\n", parentMessage)
+		}
+
 		msg := "Hello!!"
 
 		if viper.GetString("greeting") != "" {
@@ -53,7 +63,7 @@ func init() {
 	// 1. { "greeting": "おはようございます" } in ~/.tw.json
 	// 2. TW_GREETING=hello go run main.go echo greeting
 	// 3. go run main.go echo greeting --msg hello!!!!
-	greetingCmd.PersistentFlags().String("msg", "", "greeting msg")
-	viper.BindPFlag("greeting", greetingCmd.PersistentFlags().Lookup("msg"))
+	greetingCmd.Flags().String("msg", "", "greeting msg")
+	viper.BindPFlag("greeting", greetingCmd.Flags().Lookup("msg"))
 	viper.BindEnv("greeting", "TW_GREETING")
 }
