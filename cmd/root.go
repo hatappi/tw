@@ -50,6 +50,12 @@ func Execute() {
 	}
 }
 
+// exitWithError It prints the error to stderr and exits with a non-zero exit code
+func exitWithError(err error) {
+	fmt.Fprintf(os.Stderr, "\n%v\n", err)
+	os.Exit(1)
+}
+
 func init() {
 	cobra.OnInitialize(initConfig)
 
@@ -82,6 +88,7 @@ func initConfig() {
 		viper.SetConfigName(".tw")
 	}
 
+	viper.SetEnvPrefix("TW")
 	viper.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.
