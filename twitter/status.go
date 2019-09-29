@@ -1,6 +1,8 @@
 package twitter
 
 import (
+	"encoding/json"
+	"fmt"
 	"time"
 )
 
@@ -62,4 +64,52 @@ type Tweet struct {
 
 func (t *Tweet) CreatedAtTime() (time.Time, error) {
 	return time.Parse(time.RubyDate, t.CreatedAt)
+}
+
+type StatusService struct {
+	apiClient APIClient
+}
+
+func newStatusService(apiClient APIClient) *StatusService {
+	return &StatusService{
+		apiClient: apiClient,
+	}
+}
+
+// https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-update
+type UpdateStatusParams struct {
+	Status                    string  `url:"status"`
+	InReplyToStatusID         int     `url:"in_reply_to_status_id,omitempty"`
+	AutoPopulateReplyMetadata bool    `url:"auto_populate_reply_metadata,omitempty"`
+	ExcludeReplyUserIDs       []int   `url:"exclude_reply_user_ids,omitempty"`
+	AttachmentUrl             string  `url:"attachment_url,omitempty"`
+	MediaIDs                  []int   `url:"media_ids,omitempty"`
+	PossiblySensitive         bool    `url:"possibly_sensitive,omitempty"`
+	Lat                       float32 `url:"lat,omitempty"`
+	Long                      float32 `url:"long,omitempty"`
+	PlaceID                   string  `url:"place_id,omitempty"`
+	DisplayCoordinates        bool    `url:"display_coordinates,omitempty"`
+	TrimUser                  bool    `url:"trim_user,omitempty"`
+	EnableDmcommands          bool    `url:"enable_dmcommands,omitempty"`
+	FailDmcommands            bool    `url:"fail_dmcommands,omitempty"`
+	CardUri                   string  `url:"card_uri,omitempty"`
+}
+
+func (serv *StatusService) UpdateStatus(params *UpdateStatusParams) (*Tweet, error) {
+	if params.Status == "" {
+		return nil, fmt.Errorf("please set Status")
+	}
+
+	body, _, err := serv.apiClient.Post("statuses/update.json", params)
+	if err != nil {
+		return nil, err
+	}
+
+	var tweet *Tweet
+	err = json.Unmarshal(body, &tweet)
+	if err != nil {
+		return nil, err
+	}
+
+	return tweet, nil
 }

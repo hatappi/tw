@@ -18,34 +18,36 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/hatappi/tw/twitter"
 	"github.com/spf13/cobra"
 )
 
 // tweetCmd represents the tweet command
 var tweetCmd = &cobra.Command{
 	Use:   "tweet",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "tweet message",
+	Long:  "tweet message",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("tweet called")
+		message, err := cmd.Flags().GetString("message")
+		if err != nil {
+			exitWithError(err)
+		}
+
+		config := twitter.LoadConfigFromViper()
+		client := twitter.NewClient(config)
+
+		p := &twitter.UpdateStatusParams{
+			Status: message,
+		}
+		t, err := client.StatusService.UpdateStatus(p)
+		if err != nil {
+			exitWithError(err)
+		}
+		fmt.Printf("%s\nby %s\n", t.Text, t.User.Name)
 	},
 }
 
 func init() {
+	tweetCmd.Flags().StringP("message", "m", "", "send message")
 	rootCmd.AddCommand(tweetCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// tweetCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// tweetCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
