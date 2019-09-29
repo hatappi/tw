@@ -101,7 +101,6 @@ func initConfig() {
 		}
 		return
 	}
-	fmt.Println("Using config file:", viper.ConfigFileUsed())
 
 	// viper.ReadInConfig or below read
 	s := struct {
@@ -111,5 +110,4 @@ func initConfig() {
 	if err != nil {
 		fmt.Printf("unable to decode into struct, %v", err)
 	}
-	fmt.Printf("config is %+v\n", s)
 }
