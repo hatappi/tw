@@ -17,3 +17,5 @@ dist/*
 
 # vendoor
 vendor
+
+.tw.json

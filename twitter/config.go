@@ -5,17 +5,16 @@ import (
 )
 
 type Config struct {
-	ConsumerApiKey    string
-	ConsumerApiSecret string
-	AccessToken       string
-	AccessSecret      string
+	ConsumerApiKey    string `mapstructure:"consumer_api_key"`
+	ConsumerApiSecret string `mapstructure:"consumer_api_secret"`
+	AccessToken       string `mapstructure:"access_token"`
+	AccessSecret      string `mapstructure:"access_secret"`
 }
 
 func LoadConfigFromViper() *Config {
-	return &Config{
-		ConsumerApiKey:    viper.GetString("consumer_api_key"),
-		ConsumerApiSecret: viper.GetString("consumer_api_secret"),
-		AccessToken:       viper.GetString("access_token"),
-		AccessSecret:      viper.GetString("access_secret"),
-	}
+	var config *Config
+
+	viper.Unmarshal(&config)
+
+	return config
 }
