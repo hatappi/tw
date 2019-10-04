@@ -69,7 +69,15 @@ func init() {
 	// 2. TW_GREETING=hello go run main.go echo greeting
 	// 3. go run main.go echo greeting --msg hello!!!!
 	greetingCmd.Flags().String("msg", "", "greeting msg")
-	viper.BindPFlag("greeting", greetingCmd.Flags().Lookup("msg"))
-	viper.BindEnv("greeting", "TW_GREETING")
+
+	err := viper.BindPFlag("greeting", greetingCmd.Flags().Lookup("msg"))
+	if err != nil {
+		exitWithError(err)
+	}
+
+	err = viper.BindEnv("greeting", "TW_GREETING")
+	if err != nil {
+		exitWithError(err)
+	}
 
 }

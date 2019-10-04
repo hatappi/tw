@@ -106,13 +106,26 @@ func init() {
 
 	// Twitter Consumer API key
 	authorizeCmd.Flags().String("consumer-api-key", "", "Twitter Consumer API Key")
-	viper.BindPFlag("consumer_api_key", authorizeCmd.Flags().Lookup("consumer-api-key"))
-	viper.BindEnv("consumer_api_key")
+	err := viper.BindPFlag("consumer_api_key", authorizeCmd.Flags().Lookup("consumer-api-key"))
+	if err != nil {
+		exitWithError(err)
+	}
+	err = viper.BindEnv("consumer_api_key")
+	if err != nil {
+		exitWithError(err)
+	}
 
 	// Twitter Consumer API Secret
 	authorizeCmd.Flags().String("consumer-api-secret", "", "Twitter Consumer API Secret Key")
-	viper.BindPFlag("consumer_api_secret", authorizeCmd.Flags().Lookup("consumer-api-secret"))
-	viper.BindEnv("consumer_api_secret")
+	err = viper.BindPFlag("consumer_api_secret", authorizeCmd.Flags().Lookup("consumer-api-secret"))
+	if err != nil {
+		exitWithError(err)
+	}
+
+	err = viper.BindEnv("consumer_api_secret")
+	if err != nil {
+		exitWithError(err)
+	}
 }
 
 func openBrowser(url string) error {
