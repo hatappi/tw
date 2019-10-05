@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"os/exec"
 	"runtime"
+	"syscall"
 
 	"github.com/dghubble/oauth1"
 	"github.com/dghubble/oauth1/twitter"
@@ -106,13 +107,26 @@ func init() {
 
 	// Twitter Consumer API key
 	authorizeCmd.Flags().String("consumer-api-key", "", "Twitter Consumer API Key")
-	viper.BindPFlag("consumer_api_key", authorizeCmd.Flags().Lookup("consumer-api-key"))
-	viper.BindEnv("consumer_api_key")
+	err := viper.BindPFlag("consumer_api_key", authorizeCmd.Flags().Lookup("consumer-api-key"))
+	if err != nil {
+		exitWithError(err)
+	}
+	err = viper.BindEnv("consumer_api_key")
+	if err != nil {
+		exitWithError(err)
+	}
 
 	// Twitter Consumer API Secret
 	authorizeCmd.Flags().String("consumer-api-secret", "", "Twitter Consumer API Secret Key")
-	viper.BindPFlag("consumer_api_secret", authorizeCmd.Flags().Lookup("consumer-api-secret"))
-	viper.BindEnv("consumer_api_secret")
+	err = viper.BindPFlag("consumer_api_secret", authorizeCmd.Flags().Lookup("consumer-api-secret"))
+	if err != nil {
+		exitWithError(err)
+	}
+
+	err = viper.BindEnv("consumer_api_secret")
+	if err != nil {
+		exitWithError(err)
+	}
 }
 
 func openBrowser(url string) error {
@@ -120,7 +134,7 @@ func openBrowser(url string) error {
 
 	switch runtime.GOOS {
 	case "linux":
-		err = exec.Command("xdg-open", url).Start()
+		err = syscall.Exec("xdg-open", []string{url}, nil)
 	case "windows":
 		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
 	case "darwin":

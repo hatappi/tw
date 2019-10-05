@@ -33,7 +33,10 @@ var tweetCmd = &cobra.Command{
 			exitWithError(err)
 		}
 
-		config := twitter.LoadConfigFromViper()
+		config, err := twitter.LoadConfigFromViper()
+		if err != nil {
+			exitWithError(err)
+		}
 		client := twitter.NewClient(config)
 
 		p := &twitter.UpdateStatusParams{

@@ -68,7 +68,9 @@ func (apiClient *apiClient) Get(uri string, values interface{}) ([]byte, int, er
 	if err != nil {
 		return nil, 0, err
 	}
-	defer resp.Body.Close()
+	defer func() {
+		_ = resp.Body.Close()
+	}()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
@@ -95,7 +97,9 @@ func (apiClient *apiClient) Post(uri string, values interface{}) ([]byte, int, e
 	if err != nil {
 		return nil, 0, err
 	}
-	defer resp.Body.Close()
+	defer func() {
+		_ = resp.Body.Close()
+	}()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {

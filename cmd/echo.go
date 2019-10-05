@@ -41,16 +41,14 @@ func init() {
 	rootCmd.AddCommand(echoCmd)
 
 	echoCmd.PersistentFlags().String("message", "", "Port to run Application server on")
-	viper.BindPFlag("message", echoCmd.PersistentFlags().Lookup("message"))
-	viper.BindEnv("message", "KOPS_LIFECYCLE_OVERRIDES")
+	err := viper.BindPFlag("message", echoCmd.PersistentFlags().Lookup("message"))
+	if err != nil {
+		exitWithError(err)
+	}
 
-	// Here you will define your flags and configuration settings.
+	err = viper.BindEnv("message", "KOPS_LIFECYCLE_OVERRIDES")
+	if err != nil {
+		exitWithError(err)
+	}
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// echoCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// echoCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

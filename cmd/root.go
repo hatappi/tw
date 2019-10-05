@@ -52,8 +52,15 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().String("config", "", "config file (default is $HOME/.tw.yaml)")
-	viper.BindPFlag("config_path", rootCmd.PersistentFlags().Lookup("config"))
-	viper.BindEnv("config_path")
+	err := viper.BindPFlag("config_path", rootCmd.PersistentFlags().Lookup("config"))
+	if err != nil {
+		exitWithError(err)
+	}
+
+	err = viper.BindEnv("config_path")
+	if err != nil {
+		exitWithError(err)
+	}
 }
 
 // initConfig reads in config file and ENV variables if set.

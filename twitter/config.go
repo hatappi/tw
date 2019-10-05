@@ -11,10 +11,13 @@ type Config struct {
 	AccessSecret      string `mapstructure:"access_secret"`
 }
 
-func LoadConfigFromViper() *Config {
+func LoadConfigFromViper() (*Config, error) {
 	var config *Config
 
-	viper.Unmarshal(&config)
+	err := viper.Unmarshal(&config)
+	if err != nil {
+		return nil, err
+	}
 
-	return config
+	return config, nil
 }

@@ -13,7 +13,10 @@ var timelineCmd = &cobra.Command{
 	Short: "timeline command",
 	Long:  "timeline command",
 	Run: func(cmd *cobra.Command, args []string) {
-		cmd.Help()
+		err := cmd.Help()
+		if err != nil {
+			exitWithError(err)
+		}
 	},
 }
 
@@ -22,7 +25,10 @@ var timelineHomeCmd = &cobra.Command{
 	Short: "show Home Timeline tweet",
 	Long:  "show Home Timeline tweet",
 	Run: func(cmd *cobra.Command, args []string) {
-		config := twitter.LoadConfigFromViper()
+		config, err := twitter.LoadConfigFromViper()
+		if err != nil {
+			exitWithError(err)
+		}
 		client := twitter.NewClient(config)
 
 		cnt, err := cmd.Flags().GetInt("count")
