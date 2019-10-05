@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"os/exec"
 	"runtime"
+	"syscall"
 
 	"github.com/dghubble/oauth1"
 	"github.com/dghubble/oauth1/twitter"
@@ -133,7 +134,7 @@ func openBrowser(url string) error {
 
 	switch runtime.GOOS {
 	case "linux":
-		err = exec.Command("xdg-open", url).Start()
+		err = syscall.Exec("xdg-open", []string{url}, nil)
 	case "windows":
 		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
 	case "darwin":

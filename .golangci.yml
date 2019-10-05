@@ -205,6 +205,7 @@ issues:
   # excluded by default patterns execute `golangci-lint run --help`
   exclude:
     - abcdef
+    - "G204: Subprocess"
 
   # Excluding configuration per-path, per-linter, per-text and per-source
   exclude-rules:
