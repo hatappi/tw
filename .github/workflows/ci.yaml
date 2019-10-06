@@ -48,7 +48,6 @@ jobs:
 
       - name: Get lint-dependencies
         run: |
-          go env
           make lint-dependencies
 
       - name: Lint
