@@ -30,3 +30,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ls
+        run: ls
