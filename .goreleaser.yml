@@ -29,4 +29,4 @@ release:
     owner: hatappi
     name: tw
   draft: true
-
+  prerelease: true
