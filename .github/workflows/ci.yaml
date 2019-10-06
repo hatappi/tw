@@ -27,7 +27,7 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: workspace
-          path: ${GITHUB_WORKSPACE}
+          path: .
 
   test:
     name: Test
@@ -35,8 +35,23 @@ jobs:
       - Build
     runs-on: ubuntu-latest
     steps:
+      - name: Set up Go 1.13
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.13
+        id: go
+
       - uses: actions/download-artifact@master
         with:
           name: workspace
-      - name: ls
-        run: ls
+          path: .
+
+      - name: Get lint-dependencies
+        run: |
+          make lint-dependencies
+
+      - name: Lint
+        run: make lint
+
+      - name: Test
+        run: make test

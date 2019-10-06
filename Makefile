@@ -1,3 +1,7 @@
+export GOPATH := $(shell go env GOPATH)
+export GOBIN := $(PWD)/bin
+export PATH := $(GOBIN):$(PATH)
+
 build:
 	go build -o ./dist/tw main.go
 
@@ -8,6 +12,9 @@ lint:
 .PHONY: lint-fix
 lint-fix:
 	@golangci-lint run --fix ./...
+
+lint-dependencies:
+	@GO111MODULE=off go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
 
 .PHONY: dependencies
 dependencies:
