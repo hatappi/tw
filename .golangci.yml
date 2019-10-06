@@ -206,6 +206,8 @@ issues:
   exclude:
     - abcdef
     - "G204: Subprocess"
+    - "not declared by package utf8"
+    - "unicode/utf8/utf8.go"
 
   # Excluding configuration per-path, per-linter, per-text and per-source
   exclude-rules:
