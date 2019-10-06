@@ -23,9 +23,6 @@ jobs:
       - name: Go mod vendor
         run: go mod vendor
 
-      - name: a
-        run: echo ${GITHUB_WORKSPACE}
-
       - name: Upload Project
         uses: actions/upload-artifact@master
         with:
@@ -37,6 +34,7 @@ jobs:
     needs:
       - Build
     runs-on: ubuntu-latest
+    working-directory: workspace
     steps:
       - uses: actions/download-artifact@master
         with:
