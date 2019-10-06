@@ -40,8 +40,8 @@ jobs:
           name: workspace
           path: .
 
-      - name: Get dependencies
-        run: make dependencies
+      - name: Get lint-dependencies
+        run: make lint-dependencies
 
       - name: Lint
         run: make lint

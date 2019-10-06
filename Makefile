@@ -9,6 +9,9 @@ lint:
 lint-fix:
 	@golangci-lint run --fix ./...
 
+lint-dependencies:
+	@go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
+
 .PHONY: dependencies
 dependencies:
 	@go mod download
