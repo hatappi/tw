@@ -19,3 +19,14 @@ jobs:
 
       - name: Build
         run: make build
+
+      - name: test
+        run: ls ${GITHUB_WORKSPACE}
+
+  test:
+    name: Test
+    needs:
+      - Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: ls
