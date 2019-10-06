@@ -34,10 +34,10 @@ jobs:
     needs:
       - Build
     runs-on: ubuntu-latest
-    working-directory: workspace
     steps:
       - uses: actions/download-artifact@master
         with:
           name: workspace
       - name: ls
+        working-directory: workspace
         run: ls
