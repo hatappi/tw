@@ -10,7 +10,7 @@ lint-fix:
 	@golangci-lint run --fix ./...
 
 lint-dependencies:
-	@GO111MODULE=off go get github.com/golangci/golangci-lint/cmd/golangci-lint
+	@GO111MODULE=off go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
 
 .PHONY: dependencies
 dependencies:
