@@ -12,3 +12,7 @@ lint-fix:
 .PHONY: dependencies
 dependencies:
 	@go mod download
+
+.PHONY: test
+test:
+	@go test ./...
