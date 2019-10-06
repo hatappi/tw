@@ -1,3 +1,7 @@
+export GOPATH := $(shell go env GOPATH)
+export GOBIN := $(PWD)/bin
+export PATH := $(GOBIN):$(PATH)
+
 build:
 	go build -o ./dist/tw main.go
 
