@@ -35,8 +35,6 @@ jobs:
       - Build
     runs-on: ubuntu-latest
     steps:
-      - name: PATH
-        run: echo ${PATH}
       - name: Set up Go 1.13
         uses: actions/setup-go@v1
         with:
@@ -49,11 +47,9 @@ jobs:
           path: .
 
       - name: Get lint-dependencies
-        run: make lint-dependencies
-      - name: PATH
-        run: echo ${PATH}
-      - name: find
-        run: find / -name golangci-lint
+        run: |
+          export PATH=/home/runner/go/bin:${PATH}
+          make lint-dependencies
 
       - name: Lint
         run: make lint
