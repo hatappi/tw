@@ -38,6 +38,9 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: workspace
-      - name: ls
-        working-directory: workspace
-        run: ls
+
+      - name: Lint
+        run: make lint
+
+      - name: Test
+        run: make test
