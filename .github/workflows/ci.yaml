@@ -48,7 +48,7 @@ jobs:
 
       - name: Get lint-dependencies
         run: |
-          export PATH=/home/runner/go/bin:${PATH}
+          go env
           make lint-dependencies
 
       - name: Lint
