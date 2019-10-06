@@ -35,6 +35,8 @@ jobs:
       - Build
     runs-on: ubuntu-latest
     steps:
+      - name: PATH
+        run: echo ${PATH}
       - name: Set up Go 1.13
         uses: actions/setup-go@v1
         with:
@@ -48,6 +50,8 @@ jobs:
 
       - name: Get lint-dependencies
         run: make lint-dependencies
+      - name: PATH
+        run: echo ${PATH}
 
       - name: Lint
         run: make lint
