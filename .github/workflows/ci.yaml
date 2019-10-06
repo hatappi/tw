@@ -23,11 +23,14 @@ jobs:
       - name: Go mod vendor
         run: go mod vendor
 
+      - name: a
+        run: echo ${GITHUB_WORKSPACE}
+
       - name: Upload Project
         uses: actions/upload-artifact@master
         with:
           name: workspace
-          path: ${GITHUB_WORKSPACE}
+          path: .
 
   test:
     name: Test
