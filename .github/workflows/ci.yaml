@@ -46,9 +46,11 @@ jobs:
           name: workspace
           path: .
 
+      - name: Get dependencies
+        run: make dependencies
+
       - name: Lint
         run: |
-          ls
           make lint
 
       - name: Test
