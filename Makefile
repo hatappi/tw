@@ -1,6 +1,6 @@
 export GOPATH := $(shell go env GOPATH)
-export GOBIN := $(PWD)/bin
-export PATH := $(GOBIN):$(PATH)
+export GOBIN := $(GOPATH)/bin
+export PATH := $(GOBIN):${shell pwd}/bin:$(PATH)
 export GIT_HASH := `git rev-parse --short HEAD`
 
 build:
