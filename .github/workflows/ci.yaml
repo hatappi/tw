@@ -46,9 +46,9 @@ jobs:
           name: workspace
           path: .
 
-      - name: Get lint-dependencies
+      - name: Get dependencies
         run: |
-          make lint-dependencies
+          make dependencies
 
       - name: Lint
         run: make lint
