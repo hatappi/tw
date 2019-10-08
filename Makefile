@@ -1,6 +1,6 @@
 export GOPATH := $(shell go env GOPATH)
-export GOBIN := $(PWD)/bin
-export PATH := $(GOBIN):$(PATH)
+export GOBIN := $(GOPATH)/bin
+export PATH := $(GOBIN):${shell pwd}/bin:$(PATH)
 export GIT_HASH := `git rev-parse --short HEAD`
 
 build:
@@ -17,11 +17,10 @@ lint:
 lint-fix:
 	@golangci-lint run --fix ./...
 
-lint-dependencies:
-	@GO111MODULE=off go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
-
 .PHONY: dependencies
 dependencies:
+	@GO111MODULE=off go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
+	@GO111MODULE=off go get -u github.com/Songmu/ghch/cmd/ghch
 	@go mod download
 
 .PHONY: test
