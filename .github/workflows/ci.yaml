@@ -46,11 +46,11 @@ jobs:
           name: workspace
           path: .
 
+      - name: Get dependencies
+        run: make dependencies
+
       - name: Lint
         run: |
-          ls -tl `go env GOPATH`/bin
-          id
-          chmod +x -R `go env GOPATH`/bin
           make lint
 
       - name: Test
