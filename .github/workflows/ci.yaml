@@ -47,7 +47,11 @@ jobs:
           path: .
 
       - name: Lint
-        run: make lint
+        run: |
+          ls -tl `go env GOPATH`/bin
+          id
+          chmod +x -R `go env GOPATH`/bin
+          make lint
 
       - name: Test
         run: make test
