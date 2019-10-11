@@ -20,6 +20,7 @@ import (
 
 	"github.com/hatappi/tw/twitter"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // tweetCmd represents the tweet command
@@ -31,6 +32,11 @@ var tweetCmd = &cobra.Command{
 		message, err := cmd.Flags().GetString("message")
 		if err != nil {
 			exitWithError(err)
+		}
+
+		if viper.GetBool("dry-run") {
+			fmt.Println(message)
+			return
 		}
 
 		config, err := twitter.LoadConfigFromViper()
@@ -51,6 +57,17 @@ var tweetCmd = &cobra.Command{
 }
 
 func init() {
-	tweetCmd.Flags().StringP("message", "m", "", "send message")
+	tweetCmd.Flags().StringP("message", "m", "", "the message to send")
+
+	tweetCmd.Flags().Bool("dry-run", false, "dry run. print message instead of send")
+	err := viper.BindPFlag("dry-run", tweetCmd.Flags().Lookup("dry-run"))
+	if err != nil {
+		exitWithError(err)
+	}
+	err = viper.BindEnv("dry-run", "DRY_RUN")
+	if err != nil {
+		exitWithError(err)
+	}
+
 	rootCmd.AddCommand(tweetCmd)
 }
