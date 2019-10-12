@@ -11,8 +11,12 @@ func EditText() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer os.Remove(tmpfile.Name())
-	defer tmpfile.Close()
+	defer func() {
+		_ = os.Remove(tmpfile.Name())
+	}()
+	defer func() {
+		_ = tmpfile.Close()
+	}()
 
 	if err := openEditor(tmpfile.Name()); err != nil {
 		return nil, err
