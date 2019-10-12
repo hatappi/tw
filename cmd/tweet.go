@@ -35,15 +35,15 @@ var tweetCmd = &cobra.Command{
 			exitWithError(err)
 		}
 		if message == "" {
-			txt, err := editor.EditText()
-			if err != nil {
-				exitWithError(err)
+			txt, editErr := editor.EditText()
+			if editErr != nil {
+				exitWithError(editErr)
 			}
 			message = string(txt)
 		}
 
 		if viper.GetBool("dry-run") {
-			fmt.Printf(message)
+			fmt.Print(message)
 			return
 		}
 
