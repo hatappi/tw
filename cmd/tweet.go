@@ -18,6 +18,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/hatappi/tw/editor"
 	"github.com/hatappi/tw/twitter"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -33,9 +34,16 @@ var tweetCmd = &cobra.Command{
 		if err != nil {
 			exitWithError(err)
 		}
+		if message == "" {
+			txt, editErr := editor.EditText()
+			if editErr != nil {
+				exitWithError(editErr)
+			}
+			message = string(txt)
+		}
 
 		if viper.GetBool("dry-run") {
-			fmt.Println(message)
+			fmt.Print(message)
 			return
 		}
 
