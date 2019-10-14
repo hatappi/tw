@@ -63,7 +63,17 @@ type Tweet struct {
 }
 
 func (t *Tweet) CreatedAtTime() (time.Time, error) {
-	return time.Parse(time.RubyDate, t.CreatedAt)
+	jst, err := time.LoadLocation("Asia/Tokyo")
+	if err != nil {
+		return time.Time{}, err
+	}
+
+	c, err := time.Parse(time.RubyDate, t.CreatedAt)
+	if err != nil {
+		return time.Time{}, err
+	}
+
+	return c.In(jst), nil
 }
 
 type StatusService struct {
