@@ -20,14 +20,11 @@ jobs:
       - name: Build
         run: make build
 
-      - name: Go mod vendor
-        run: go mod vendor
-
       - name: Upload Project
         uses: actions/upload-artifact@master
         with:
-          name: workspace
-          path: .
+          name: tw
+          path: ./dist/tw
 
   test:
     name: Test
@@ -40,11 +37,6 @@ jobs:
         with:
           go-version: 1.13
         id: go
-
-      - uses: actions/download-artifact@master
-        with:
-          name: workspace
-          path: .
 
       - name: Get dependencies
         run: make dependencies
