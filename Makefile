@@ -22,6 +22,7 @@ dependencies:
 	@GO111MODULE=off go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
 	@GO111MODULE=off go get -u github.com/Songmu/ghch/cmd/ghch
 	@go mod download
+	@go mod tidy
 
 .PHONY: test
 test:
