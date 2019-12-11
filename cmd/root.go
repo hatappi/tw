@@ -29,6 +29,17 @@ var rootCmd = &cobra.Command{
 	Use:   "tw",
 	Short: "Twitter CLI",
 	Long:  "Twitter CLI",
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		if cmd.Use == "version" {
+			return
+		}
+
+		if err := viper.ReadInConfig(); err != nil {
+			if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+				exitWithError(fmt.Errorf("config file not found: %s", err))
+			}
+		}
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -42,7 +53,7 @@ func Execute() {
 
 // exitWithError It prints the error to stderr and exits with a non-zero exit code
 func exitWithError(err error) {
-	fmt.Fprintf(os.Stderr, "\n%v\n", err)
+	fmt.Fprintf(os.Stderr, "%v\n", err)
 	os.Exit(1)
 }
 
@@ -88,11 +99,10 @@ func initConfig() {
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			fmt.Println("config file not found.", err)
+			return
 		} else {
 			fmt.Println(err)
 			os.Exit(1)
 		}
-		return
 	}
 }

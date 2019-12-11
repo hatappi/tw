@@ -21,6 +21,8 @@ var timelineCmd = &cobra.Command{
 	Short: "timeline command",
 	Long:  "timeline command",
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		rootCmd.PersistentPreRun(cmd, args)
+
 		config, err := twitter.LoadConfigFromViper()
 		if err != nil {
 			exitWithError(err)

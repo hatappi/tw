@@ -32,16 +32,27 @@ var versionCmd = &cobra.Command{
 	Short: "show version",
 	Long:  "show version",
 	Run: func(cmd *cobra.Command, args []string) {
+		short, err := cmd.Flags().GetBool("short")
+		if err != nil {
+			exitWithError(err)
+		}
+
 		if version == "" {
 			version = "None"
 		}
 		if commit == "" {
 			commit = "None"
 		}
-		fmt.Printf("version is %s, commit is %s\n", version, commit)
+
+		if short {
+			fmt.Println(version)
+		} else {
+			fmt.Printf("version is %s, commit is %s\n", version, commit)
+		}
 	},
 }
 
 func init() {
+	versionCmd.Flags().BoolP("short", "s", false, "show short version")
 	rootCmd.AddCommand(versionCmd)
 }
