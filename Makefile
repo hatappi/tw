@@ -3,6 +3,12 @@ export GOBIN := $(GOPATH)/bin
 export PATH := $(GOBIN):${shell pwd}/bin:$(PATH)
 export GIT_HASH := `git rev-parse --short HEAD`
 
+GOBIN:=${PWD}/bin
+PATH:=${GOBIN}:${PATH}
+
+install-tools:
+	./scripts/install_tools.sh
+
 build:
 	go build \
 	  -ldflags "-X github.com/hatappi/tw/cmd.version=commit-${GIT_HASH} -X github.com/hatappi/tw/cmd.commit=${GIT_HASH}" \
@@ -11,15 +17,14 @@ build:
 
 .PHONY: lint
 lint:
-	@golangci-lint run ./...
+	${GOBIN}/golangci-lint run ./...
 
 .PHONY: lint-fix
 lint-fix:
-	@golangci-lint run --fix ./...
+	${GOBIN}/golangci-lint run --fix ./...
 
 .PHONY: dependencies
 dependencies:
-	@GO111MODULE=off go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
 	@GO111MODULE=off go get -u github.com/Songmu/ghch/cmd/ghch
 	@go mod download
 	@go mod tidy

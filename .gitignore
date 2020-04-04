@@ -20,4 +20,5 @@ vendor
 
 .tw.json
 
-bin
+bin/*
+!bin/.keep
