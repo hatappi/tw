@@ -64,7 +64,7 @@ jobs:
         run: echo "cache is ${{ steps.cache.outputs.cache-hit }}"
 
       - name: Get dependencies
-        run: make dependencies
+        run: make install-tools
 
       - name: Lint
         run: |
