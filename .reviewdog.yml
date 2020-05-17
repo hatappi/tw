@@ -1,0 +1,4 @@
+runner:
+  golangci-lint:
+    cmd: ./bin/golangci-lint run --out-format=line-number ./...
+    level: error

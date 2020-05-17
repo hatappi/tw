@@ -6,6 +6,8 @@ export GIT_HASH := `git rev-parse --short HEAD`
 GOBIN:=${PWD}/bin
 PATH:=${GOBIN}:${PATH}
 
+REVIEWDOG_ARGS ?= -diff="git diff master" -tee
+
 install-tools:
 	./scripts/install_tools.sh
 
@@ -32,3 +34,7 @@ dependencies:
 .PHONY: test
 test:
 	@go test ./...
+
+reviewdog:
+	${GOBIN}/reviewdog ${REVIEWDOG_ARGS}
+
